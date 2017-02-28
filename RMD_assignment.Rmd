@@ -33,6 +33,9 @@ We then decided to visualize the relationship between the two variables by using
 ```{r plotting, echo=FALSE, fig.align='center'}
 ggplot(data = gapminder, aes(x = lifeExp, y = gdpPercap)) +
   geom_point()
+
+ggplot(data=gapminder, aes(x=lifeExp, y=gdpPercap, color=continent))+
+  geom_point()+scale_y_log10()+geom_smooth(method=lm)
 ```
 
 ```{r plot, echo=FALSE, fig.align='center'}
