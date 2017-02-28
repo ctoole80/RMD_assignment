@@ -2,7 +2,7 @@
 title: "Gapminder Analysis"
 author: "Chris Toole & Max Pohlman"
 date: "February 28, 2017"
-output: pdf_document
+output: html_document
 ---
 
 ```{r setup, include=FALSE}
@@ -18,6 +18,19 @@ library(ggplot2)
 gapminder_location<-curl(url="https://raw.githubusercontent.com/resbaz/r-novice-gapminder-files/master/data/gapminder-FiveYearData.csv")
 gapminder<-read.csv(gapminder_location,stringsAsFactors = FALSE)
 
+```
+The first thing we did was we looked at the correlation between life expectancy and GDP per capita using the following code:
+
+```{r firsttable, echo=TRUE, eval=FALSE}
+cor(gapminder$lifeExp, gapminder$gdpPercap)
+```
+The correlation between life expextancy and GDP per capita is `r cor(gapminder$lifeExp, gapminder$gdpPercap)`
+
+We then decided to visualize the relationship between the two variables by using a scatter plot.
+
+```{r plotting, echo=FALSE}
+ggplot(data = gapminder, aes(x = lifeExp, y = gdpPercap)) +
+  geom_point()
 ```
 
 ## Analysis
