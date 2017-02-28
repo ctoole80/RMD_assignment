@@ -19,6 +19,8 @@ gapminder_location<-curl(url="https://raw.githubusercontent.com/resbaz/r-novice-
 gapminder<-read.csv(gapminder_location,stringsAsFactors = FALSE)
 
 ```
+
+## Analysis
 The first thing we did was we looked at the correlation between life expectancy and GDP per capita using the following code:
 
 ```{r firsttable, echo=TRUE, eval=FALSE}
@@ -32,10 +34,6 @@ We then decided to visualize the relationship between the two variables by using
 ggplot(data = gapminder, aes(x = lifeExp, y = gdpPercap)) +
   geom_point()
 ```
-
-## Analysis
-
-Trends:
 
 ```{r pressure, echo=FALSE}
 #plot lifeexp (y) vs time (x)
