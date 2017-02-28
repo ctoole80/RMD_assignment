@@ -30,14 +30,15 @@ The correlation between life expextancy and GDP per capita is `r cor(gapminder$l
 
 We then decided to visualize the relationship between the two variables by using a scatter plot.
 
-```{r plotting, echo=FALSE}
+```{r plotting, echo=FALSE, fig.align='center'}
 ggplot(data = gapminder, aes(x = lifeExp, y = gdpPercap)) +
   geom_point()
 ```
 
-```{r pressure, echo=FALSE}
+```{r plot, echo=FALSE, fig.align='center'}
 #plot lifeexp (y) vs time (x)
 ggplot(data=gapminder, aes(x=year, y=lifeExp, color=continent))+
   geom_point()+geom_smooth(method=lm)
 ```
+
 Above plot shows trend.
