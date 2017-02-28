@@ -1,0 +1,32 @@
+---
+title: "Gapminder Analysis"
+author: "Chris Toole & Max Pohlman"
+date: "February 28, 2017"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Introduction
+Gapminder dataset analysis and trends.
+
+```{r load data, echo=FALSE}
+library(curl)
+library(ggplot2)
+gapminder_location<-curl(url="https://raw.githubusercontent.com/resbaz/r-novice-gapminder-files/master/data/gapminder-FiveYearData.csv")
+gapminder<-read.csv(gapminder_location,stringsAsFactors = FALSE)
+
+```
+
+## Analysis
+
+Trends:
+
+```{r pressure, echo=FALSE}
+#plot lifeexp (y) vs time (x)
+ggplot(data=gapminder, aes(x=year, y=lifeExp, color=continent))+
+  geom_point()+geom_smooth(method=lm)
+```
+Above plot shows trend.
