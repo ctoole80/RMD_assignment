@@ -2,7 +2,7 @@
 title: "Gapminder Analysis"
 author: "Chris Toole & Max Pohlman"
 date: "February 28, 2017"
-output: html_document
+output: pdf_document
 ---
 
 ```{r setup, include=FALSE}
@@ -13,6 +13,8 @@ knitr::opts_chunk$set(echo = TRUE)
 Gapminder dataset analysis and trends.
 
 ```{r load data, echo=FALSE}
+library(magrittr)
+library(dplyr)
 library(ggplot2)
 library(plyr)
 library(curl)
@@ -52,7 +54,68 @@ ggplot(asdf, aes(year, lifeexp, color=continent)) +
   geom_smooth(se=FALSE)
 ```
 
+It looks like Africa's average life expectancy increased at approximately the same rate as the other continents until around 1987.
 
+Furthermore, the Americas seem low. This might be because North and South America are combined. Let's now split them up:
+
+```{r americasone, echo=FALSE}
+gapminder$america[gapminder$country=='Canada'|gapminder$country=='United States'] <- "North America"
+gapminder$america[
+  gapminder$country=='Mexico'|
+  gapminder$country=='Costa Rica'|
+  gapminder$country=='Cuba'|
+  gapminder$country=='Dominican Republic'|
+  gapminder$country=='Jamaica'|
+  gapminder$country=='Puerto Rico'|
+  gapminder$country=='Haiti'|
+  gapminder$country=='Honduras'|
+  gapminder$country=='Panama'|
+  gapminder$country=='El Salvador'|
+  gapminder$country=='Guatemala'|
+  gapminder$country=='Nicaragua'
+  ]<- "Central America"
+gapminder$america[
+    gapminder$country=='Brazil'|
+    gapminder$country=='Argentina'|
+    gapminder$country=='Bolivia'|
+    gapminder$country=='Chile'|
+    gapminder$country=='Colombia'|
+    gapminder$country=='Ecuador'|
+    gapminder$country=='Paraguay'|
+    gapminder$country=='Peru'|
+    gapminder$country=='Venezuela'|
+    gapminder$country=='Trinidad and Tobago'|
+    gapminder$country=='Uruguay'
+  ]<- "South America"
+NAnames<-unique(gapminder$country[gapminder$america=='North America'])
+NAnames<-NAnames[!is.na(NAnames)]
+CAnames<-unique(gapminder$country[gapminder$america=='Central America'])
+CAnames<-CAnames[!is.na(CAnames)]
+SAnames<-unique(gapminder$country[gapminder$america=='South America'])
+SAnames<-SAnames[!is.na(SAnames)]
+```
+The countries we classified as North America were `r NAnames`
+
+The countries we classified as Central America were `r CAnames`
+
+The countries we classified as South America were `r SAnames`
+
+```{r maxlinecharttwo, echo=FALSE, message=FALSE}
+plottable<-ddply(subset(gapminder, continent == 'Americas'),c("america","year"),summarise, lifeexp=mean(lifeExp)) 
+ggplot(plottable, aes(year, lifeexp, color=america)) +
+  geom_smooth(se=FALSE)
+```
+Wow! There appears to be quite the difference between North America and the other two Americas. Let's verify this with a t-test for difference of means to see if they are significantly different.
+
+```{r maxttest, echo=FALSE}
+NAvalues<-gapminder$lifeExp[gapminder$america=='North America']
+CASAvalues<-gapminder$lifeExp[gapminder$america=='Central America' | gapminder$america=="South America"]
+t.test(NAvalues,CASAvalues)
+```
+
+With a t stat of a whopping 11.14, there is a significant difference between life expectancy in North America and the other two Americas.
+
+#Chris Stuff
 ``` {r plottwo, echo=FALSE, fig.align='center'}
 ggplot(data=gapminder, aes(x=lifeExp, y=gdpPercap, color=continent))+
   geom_point()+scale_y_log10()+geom_smooth(method=lm)
