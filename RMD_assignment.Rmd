@@ -18,9 +18,20 @@ library(ggplot2)
 library(plyr)
 library(dplyr)
 library(curl)
-library(gapminder)
 gapminder_location<-curl(url="https://raw.githubusercontent.com/resbaz/r-novice-gapminder-files/master/data/gapminder-FiveYearData.csv")
 gapminder<-read.csv(gapminder_location,stringsAsFactors = FALSE)
+#function calculates total gdp
+calcgdp <- function(dat,year=NULL,country=NULL){
+  if(!is.null(year)) {
+    dat<- dat[dat$year %in% year,]
+  }
+  if(!is.null(country)) {
+    dat<- dat[dat$country %in% country,]
+  }
+  gdp<-dat$gdpPercap*dat$pop
+  dat<-cbind(dat,gdp)
+  return(dat)
+}
 
 ```
 
