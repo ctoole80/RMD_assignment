@@ -12,11 +12,11 @@ knitr::opts_chunk$set(echo = TRUE)
 ## Introduction
 Gapminder dataset analysis and trends.
 
-```{r load data, echo=FALSE}
+```{r load data, echo=FALSE, message=FALSE}
 library(magrittr)
-library(dplyr)
 library(ggplot2)
 library(plyr)
+library(dplyr)
 library(curl)
 library(gapminder)
 gapminder_location<-curl(url="https://raw.githubusercontent.com/resbaz/r-novice-gapminder-files/master/data/gapminder-FiveYearData.csv")
