@@ -32,6 +32,7 @@ calcgdp <- function(dat,year=NULL,country=NULL){
   dat<-cbind(dat,gdp)
   return(dat)
 }
+newgap<-calcgdp(gapminder)
 
 ```
 
@@ -49,12 +50,31 @@ We then decided to visualize the relationship between the two variables by using
 ggplot(data = gapminder, aes(x = lifeExp, y = gdpPercap)) +
   geom_point()
 ```
-This looks like there's a clear relationship between gdp and life expectancy! The plot appears exponential so the same plot was created with a logarithmic scale with base 10 below. 
+This looks like there's a clear relationship between gdp and life expectancy! The plot appears exponential so the same plot was created below with a logarithmic scale of base 10 applied to the y-axis and then fit to a linear model. 
 
 ``` {r plottwo, echo=FALSE, fig.align='center'}
 ggplot(data=gapminder, aes(x=lifeExp, y=gdpPercap))+
   geom_point()+scale_y_log10()+geom_smooth(method=lm)
 ```
+The above analysis was then performed on total GDP. The correlation between life expextancy and total GDP is `r cor(newgap$lifeExp, newgap$gdp)`. 
+
+```{r plotting3, echo=FALSE, fig.align='center'}
+ggplot(data = newgap, aes(x = lifeExp, y = gdp)) +
+  geom_point()
+```
+It appears there are several exponential trends above so let's separate by continent.
+
+```{r plotting4, echo=FALSE, fig.align='center'}
+ggplot(data = newgap, aes(x = lifeExp, y = gdp, color=continent)) +
+  geom_point()
+```
+Then apply the logarithmic scale to the y axis and fit to linear model.
+
+``` {r plot5, echo=FALSE, fig.align='center'}
+ggplot(data=newgap, aes(x=lifeExp, y=gdp, color=continent))+
+  geom_point()+scale_y_log10()+geom_smooth(method=lm)
+```
+
 Now lets take a look at life expectancy by continent.
 ```{r barchart, echo=FALSE, fig.align='center'}
 plottable<-ddply(gapminder,~continent,summarise,lifeexp=mean(lifeExp))
