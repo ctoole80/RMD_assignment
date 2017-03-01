@@ -49,8 +49,13 @@ We then decided to visualize the relationship between the two variables by using
 ggplot(data = gapminder, aes(x = lifeExp, y = gdpPercap)) +
   geom_point()
 ```
-This looks like there's a clear relationship between gdp and life expectancy! Now lets take a look at life expectancy by continent.
+This looks like there's a clear relationship between gdp and life expectancy! The plot appears exponential so the same plot was created with a logarithmic scale with base 10 below. 
 
+``` {r plottwo, echo=FALSE, fig.align='center'}
+ggplot(data=gapminder, aes(x=lifeExp, y=gdpPercap))+
+  geom_point()+scale_y_log10()+geom_smooth(method=lm)
+```
+Now lets take a look at life expectancy by continent.
 ```{r barchart, echo=FALSE, fig.align='center'}
 plottable<-ddply(gapminder,~continent,summarise,lifeexp=mean(lifeExp))
 ggplot(data = plottable, aes(continent, lifeexp, fill=continent)) +
@@ -126,15 +131,11 @@ t.test(NAvalues,CASAvalues)
 
 With a t stat of a whopping 11.14, there is a significant difference between life expectancy in North America and the other two Americas.
 
-#Chris Stuff
-``` {r plottwo, echo=FALSE, fig.align='center'}
-ggplot(data=gapminder, aes(x=lifeExp, y=gdpPercap, color=continent))+
-  geom_point()+scale_y_log10()+geom_smooth(method=lm)
-```
+#to be moved
 
 ```{r plot, echo=FALSE, fig.align='center'}
 #plot lifeexp (y) vs time (x)
-ggplot(data=gapminder, aes(x=year, y=lifeExp, color=continent))+
+ggplot(data=gapminder, aes(x=year, y=lifeExp))+
   geom_point()+geom_smooth(method=lm)
 ```
 
