@@ -13,8 +13,10 @@ knitr::opts_chunk$set(echo = TRUE)
 Gapminder dataset analysis and trends.
 
 ```{r load data, echo=FALSE}
-library(curl)
 library(ggplot2)
+library(plyr)
+library(curl)
+library(gapminder)
 gapminder_location<-curl(url="https://raw.githubusercontent.com/resbaz/r-novice-gapminder-files/master/data/gapminder-FiveYearData.csv")
 gapminder<-read.csv(gapminder_location,stringsAsFactors = FALSE)
 
@@ -33,7 +35,25 @@ We then decided to visualize the relationship between the two variables by using
 ```{r plotting, echo=FALSE, fig.align='center'}
 ggplot(data = gapminder, aes(x = lifeExp, y = gdpPercap)) +
   geom_point()
+```
+This looks like there's a clear relationship between gdp and life expectancy! Now lets take a look at life expectancy by continent.
 
+```{r barchart, echo=FALSE, fig.align='center'}
+plottable<-ddply(gapminder,~continent,summarise,lifeexp=mean(lifeExp))
+ggplot(data = plottable, aes(continent, lifeexp, fill=continent)) +
+   geom_bar(stat="identity")
+```
+
+Unsurprisingly, Africa, the poorest continent, has the lowest life expectancy. However, this might have improved over time. We then plotted life expectancy over time for each country.
+
+```{r maxlinechart, echo=FALSE, message=FALSE, fig.align='center'}
+asdf<-ddply(gapminder,c("continent","year"),summarise, lifeexp=mean(lifeExp)) 
+ggplot(asdf, aes(year, lifeexp, color=continent)) +
+  geom_smooth(se=FALSE)
+```
+
+
+``` {r plottwo, echo=FALSE, fig.align='center'}
 ggplot(data=gapminder, aes(x=lifeExp, y=gdpPercap, color=continent))+
   geom_point()+scale_y_log10()+geom_smooth(method=lm)
 ```
