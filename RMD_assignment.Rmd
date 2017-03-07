@@ -75,21 +75,29 @@ ggplot(data=newgap, aes(x=lifeExp, y=gdp, color=continent))+
   geom_point()+scale_y_log10()+geom_smooth(method=lm)
 ```
 
-Now lets take a look at mean life expectancy by continent.
+Now lets take a look at mean life expectancy and gdpPercap by continent.
 ```{r barchart, echo=FALSE, fig.align='center', fig.width = 7, fig.height = 4}
 plottable<-ddply(gapminder,~continent,summarise,lifeexp=mean(lifeExp))
 ggplot(data = plottable, aes(continent, lifeexp, fill=continent)) +
    geom_bar(stat="identity")
 ```
 
-Further, this can be separated by year as well. 
+``` {r plot55, echo=FALSE, fig.align='center'}
+gapminder %>% group_by(continent) %>% summarize(gdp=mean(gdpPercap)) %>%
+  ggplot(aes(x=continent,y=gdp))+geom_point()
+```
+Further, these can be separated by year as well. 
 
 ```{r plotting101, echo=FALSE, fig.align='center', fig.width = 7, fig.height = 4}
 gapminder %>% group_by(continent,year) %>% summarize(meanlifeExp=mean(lifeExp)) %>%
   ggplot(aes(x=continent,y=meanlifeExp,color=year))+geom_point()
 ```
+```{r plot66, echo=FALSE, fig.align='center'}
+gapminder %>% group_by(continent,year) %>% summarize(gdp=mean(gdpPercap)) %>%
+  ggplot(aes(x=continent,y=gdp,color=year))+geom_point()
 
-It appears the life expectancy of Asia has increased the most over time, while the life expectancy in Oceania has changed the least, with the highest overall mean.
+```
+It appears the life expectancy of Asia has increased the most over time, while the life expectancy in Oceania has changed the least, with the highest overall mean. Oceania and Europe appear to have sustained approximately the same economic growth and have the highest change in gdp among all continents. Asia and the Americas also appear to have similar increases in gdp, ableit of less magnitude. Africa has the smallest increase in gdp as well as the lowest mean gdp in each year.
 
 
 Unsurprisingly, Africa, the poorest continent, has the lowest life expectancy. However, this might have improved over time. We then plotted life expectancy over time for each country.
