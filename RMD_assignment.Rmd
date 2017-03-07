@@ -75,12 +75,22 @@ ggplot(data=newgap, aes(x=lifeExp, y=gdp, color=continent))+
   geom_point()+scale_y_log10()+geom_smooth(method=lm)
 ```
 
-Now lets take a look at life expectancy by continent.
+Now lets take a look at mean life expectancy by continent.
 ```{r barchart, echo=FALSE, fig.align='center', fig.width = 7, fig.height = 4}
 plottable<-ddply(gapminder,~continent,summarise,lifeexp=mean(lifeExp))
 ggplot(data = plottable, aes(continent, lifeexp, fill=continent)) +
    geom_bar(stat="identity")
 ```
+
+Further, this can be separated by year as well. 
+
+```{r plotting101, echo=FALSE, fig.align='center', fig.width = 7, fig.height = 4}
+gapminder %>% group_by(continent,year) %>% summarize(meanlifeExp=mean(lifeExp)) %>%
+  ggplot(aes(x=continent,y=meanlifeExp,color=year))+geom_point()
+```
+
+It appears the life expectancy of Asia has increased the most over time, while the life expectancy in Oceania has changed the least, with the highest overall mean.
+
 
 Unsurprisingly, Africa, the poorest continent, has the lowest life expectancy. However, this might have improved over time. We then plotted life expectancy over time for each country.
 
@@ -151,12 +161,3 @@ t.test(NAvalues,CASAvalues)
 
 With a t stat of a whopping 11.14, there is a significant difference between life expectancy in North America and the other two Americas.
 
-#to be moved
-
-```{r plot, echo=FALSE, fig.align='center'}
-#plot lifeexp (y) vs time (x)
-ggplot(data=gapminder, aes(x=year, y=lifeExp, color=continent))+
-  geom_point()+geom_smooth(method=lm)
-```
-
-Above plot shows trend.
