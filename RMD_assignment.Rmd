@@ -52,7 +52,7 @@ ggplot(data = gapminder, aes(x = lifeExp, y = gdpPercap)) +
 ```
 This looks like there's a clear relationship between gdp and life expectancy! The plot appears exponential so the same plot was created below with a logarithmic scale of base 10 applied to the y-axis and then fit to a linear model. 
 
-``` {r plottwo, echo=FALSE, fig.align='center'}
+``` {r plottwo, echo=FALSE, fig.align='center', fig.width = 7, fig.height = 3}
 ggplot(data=gapminder, aes(x=lifeExp, y=gdpPercap))+
   geom_point()+scale_y_log10()+geom_smooth(method=lm)
 ```
@@ -64,7 +64,7 @@ ggplot(data = newgap, aes(x = lifeExp, y = gdp)) +
 ```
 It appears there are several exponential trends above so let's separate by continent.
 
-```{r plotting4, echo=FALSE, fig.align='center'}
+```{r plotting4, echo=FALSE, fig.align='center', fig.width = 7, fig.height = 4}
 ggplot(data = newgap, aes(x = lifeExp, y = gdp, color=continent)) +
   geom_point()
 ```
@@ -76,7 +76,7 @@ ggplot(data=newgap, aes(x=lifeExp, y=gdp, color=continent))+
 ```
 
 Now lets take a look at life expectancy by continent.
-```{r barchart, echo=FALSE, fig.align='center'}
+```{r barchart, echo=FALSE, fig.align='center', fig.width = 7, fig.height = 4}
 plottable<-ddply(gapminder,~continent,summarise,lifeexp=mean(lifeExp))
 ggplot(data = plottable, aes(continent, lifeexp, fill=continent)) +
    geom_bar(stat="identity")
@@ -136,7 +136,7 @@ The countries we classified as Central America were `r CAnames`
 
 The countries we classified as South America were `r SAnames`
 
-```{r maxlinecharttwo, echo=FALSE, message=FALSE}
+```{r maxlinecharttwo, echo=FALSE, message=FALSE, fig.width = 7, fig.height = 4, fig.align='center'}
 plottable<-ddply(subset(gapminder, continent == 'Americas'),c("america","year"),summarise, lifeexp=mean(lifeExp)) 
 ggplot(plottable, aes(year, lifeexp, color=america)) +
   geom_smooth(se=FALSE)
