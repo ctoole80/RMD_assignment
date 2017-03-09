@@ -84,7 +84,8 @@ ggplot(data = plottable, aes(continent, lifeexp, fill=continent)) +
 
 ``` {r plot55, echo=FALSE, fig.align='center'}
 gapminder %>% group_by(continent) %>% summarize(gdp=mean(gdpPercap)) %>%
-  ggplot(aes(x=continent,y=gdp))+geom_point()
+  ggplot(aes(continent, gdp, fill=continent)) +
+   geom_bar(stat="identity")
 ```
 Further, these can be separated by year as well. 
 
