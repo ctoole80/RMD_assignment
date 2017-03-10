@@ -56,7 +56,7 @@ This looks like there's a clear relationship between gdp and life expectancy! Th
 ``` {r plottwo, echo=FALSE, fig.align='center', fig.width = 7, fig.height = 3}
 obj<-lm(gdpPercap~lifeExp, data=gapminder)
 ggplot(data=gapminder, aes(x=lifeExp, y=gdpPercap))+
-  geom_point()+scale_y_log10()+geom_smooth(method=lm) +
+  geom_point()+scale_y_log10()+geom_smooth(method=lm)+ theme(legend.position="none") +
   geom_text(aes(x=40, y=30000, label=(paste('The r-squared is ' , round(summary(obj)$r.squared,digits=3))),size=3)) #adds r squared
 ```
 The above analysis was then performed on total GDP. The correlation between life expextancy and total GDP is `r cor(newgap$lifeExp, newgap$gdp)`. 
