@@ -125,7 +125,7 @@ ggplot()+
 It appears the life expectancy of Asia has increased the most over time, while the life expectancy in Oceania has changed the least, with the highest overall mean. Oceania and Europe appear to have sustained approximately the same economic growth and have the highest change in gdp among all continents. Asia and the Americas also appear to have similar increases in gdp, ableit of less magnitude. Africa has the smallest increase in gdp as well as the lowest mean gdp in each year.
 
 
-Unsurprisingly, Africa, the poorest continent, has the lowest life expectancy. However, this might have improved over time. We then plotted life expectancy over time for each country.
+Unsurprisingly, Africa, the poorest continent, has the lowest life expectancy. However, this might have improved over time. We then plotted life expectancy over time for each continent.
 
 ```{r maxlinechart, echo=FALSE, message=FALSE, fig.align='center'}
 asdf<-ddply(gapminder,c("continent","year"),summarise, lifeexp=mean(lifeExp)) 
