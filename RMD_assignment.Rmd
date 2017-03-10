@@ -194,3 +194,12 @@ t.test(NAvalues,CASAvalues)
 
 With a t stat of a whopping 11.14, there is a significant difference between life expectancy in North America and the other two Americas.
 
+Furthermore, after receiving peer review, it was suggested we include a paired t-test with NA and CA/SA paired on each year.
+```{r maxttest2, echo=FALSE}
+tester<-ddply(subset(gapminder, gapminder$america=='North America'),'year',summarise, na=mean(lifeExp))
+testertwo<-ddply(subset(gapminder, gapminder$america=='Central America' | gapminder$america=='South America'),'year',summarise, casa=mean(lifeExp))
+tester$casa<-testertwo$casa
+t.test(tester$na,tester$casa, paired = TRUE)
+```
+
+Still a highly significant number suggesting a strong difference between North America and Central/South America life expectancies.
