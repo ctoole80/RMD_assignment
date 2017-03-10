@@ -56,8 +56,7 @@ This looks like there's a clear relationship between gdp and life expectancy! Th
 obj<-lm(gdpPercap~lifeExp, data=gapminder)
 ggplot(data=gapminder, aes(x=lifeExp, y=gdpPercap))+
   geom_point()+scale_y_log10()+geom_smooth(method=lm) +
-  geom_text(aes(x=40, y=30000, label=(paste('The r-squared is ' , round(summary(obj)$r.squared,digits=3))),size=3)) + #adds r squared
-  theme(legend.position="none")
+  geom_text(aes(x=40, y=30000, label=(paste('The r-squared is ' , round(summary(obj)$r.squared,digits=3))),size=3)) #adds r squared
 ```
 The above analysis was then performed on total GDP. The correlation between life expextancy and total GDP is `r cor(newgap$lifeExp, newgap$gdp)`. 
 
@@ -65,13 +64,13 @@ The above analysis was then performed on total GDP. The correlation between life
 ggplot(data = newgap, aes(x = lifeExp, y = gdp)) +
   geom_point()
 ```
-It appears there are several exponential trends above so let's separate by continent.
+It appears there are several exponential trends above, so the plot was then separated by continent.
 
 ```{r plotting4, echo=FALSE, fig.align='center', fig.width = 7, fig.height = 4}
 ggplot(data = newgap, aes(x = lifeExp, y = gdp, color=continent)) +
   geom_point()
 ```
-Then apply the logarithmic scale to the y axis and fit to linear model.
+Then a logarithmic scale was applied to the y axis and the data for each continent was fit to a linear model but none appear to be highly correlated.
 
 ``` {r plot5, echo=FALSE, fig.align='center'}
 ggplot(data=newgap, aes(x=lifeExp, y=gdp, color=continent))+
@@ -204,3 +203,16 @@ t.test(tester$na,tester$casa, paired = TRUE)
 ```
 
 Still a highly significant number suggesting a strong difference between North America and Central/South America life expectancies.
+
+Lastly, population was plotted against life expectancy and gdp per capita was plotted against population. Neither of these plots displayed clear relationships.
+
+```{r plotting_pop_lifeExp, echo=FALSE, fig.height=4, fig.align='center'}
+ggplot(data = gapminder, aes(x = lifeExp, y = pop, color=continent)) +
+  geom_point()+geom_smooth(method=lm)
+```
+
+
+```{r plotting_pop_gdp, echo=FALSE, fig.height=4, fig.align='center'}
+ggplot(data = gapminder, aes(x = pop, y = gdpPercap, color=continent)) +
+  geom_point()
+```
