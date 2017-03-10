@@ -64,13 +64,13 @@ The above analysis was then performed on total GDP. The correlation between life
 ggplot(data = newgap, aes(x = lifeExp, y = gdp)) +
   geom_point()
 ```
-It appears there are several exponential trends above so let's separate by continent.
+It appears there are several exponential trends above, so the plot was then separated by continent.
 
 ```{r plotting4, echo=FALSE, fig.align='center', fig.width = 7, fig.height = 4}
 ggplot(data = newgap, aes(x = lifeExp, y = gdp, color=continent)) +
   geom_point()
 ```
-Then apply the logarithmic scale to the y axis and fit to linear model.
+Then a logarithmic scale was applied to the y axis and the data for each continent was fit to a linear model but none appear to be highly correlated.
 
 ``` {r plot5, echo=FALSE, fig.align='center'}
 ggplot(data=newgap, aes(x=lifeExp, y=gdp, color=continent))+
