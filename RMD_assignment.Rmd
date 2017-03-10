@@ -204,12 +204,15 @@ t.test(tester$na,tester$casa, paired = TRUE)
 
 Still a highly significant number suggesting a strong difference between North America and Central/South America life expectancies.
 
-```{r plotting_pop_lifeExp, echo=FALSE, fig.align='center'}
+Lastly, population was plotted against life expectancy and gdp per capita was plotted against population. Neither of these plots displayed clear relationships.
+
+```{r plotting_pop_lifeExp, echo=FALSE, fig.height=4, fig.align='center'}
 ggplot(data = gapminder, aes(x = lifeExp, y = pop, color=continent)) +
-  geom_point()
+  geom_point()+geom_smooth(method=lm)
 ```
 
-```{r plotting_pop_gdp, echo=FALSE, fig.align='center'}
+
+```{r plotting_pop_gdp, echo=FALSE, fig.height=4, fig.align='center'}
 ggplot(data = gapminder, aes(x = pop, y = gdpPercap, color=continent)) +
   geom_point()
 ```
