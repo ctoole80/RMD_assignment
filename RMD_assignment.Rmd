@@ -48,7 +48,8 @@ We then decided to visualize the relationship between the two variables by using
 
 ```{r plotting, echo=FALSE, fig.align='center'}
 ggplot(data = gapminder, aes(x = lifeExp, y = gdpPercap)) +
-  geom_point()
+  geom_point()+ggtitle('Life exptectency vs gdp per capita') +
+  theme(plot.title = element_text(hjust = 0.5))
 ```
 This looks like there's a clear relationship between gdp and life expectancy! The plot appears exponential so the same plot was created below with a logarithmic scale of base 10 applied to the y-axis and then fit to a linear model. 
 
@@ -60,15 +61,18 @@ ggplot(data=gapminder, aes(x=lifeExp, y=gdpPercap))+
 ```
 The above analysis was then performed on total GDP. The correlation between life expextancy and total GDP is `r cor(newgap$lifeExp, newgap$gdp)`. 
 
+
 ```{r plotting3, echo=FALSE, fig.align='center'}
 ggplot(data = newgap, aes(x = lifeExp, y = gdp)) +
-  geom_point()
+  geom_point()+ggtitle('Life exptectency vs total gdp') +
+  theme(plot.title = element_text(hjust = 0.5))
 ```
 It appears there are several exponential trends above, so the plot was then separated by continent.
 
 ```{r plotting4, echo=FALSE, fig.align='center', fig.width = 7, fig.height = 4}
 ggplot(data = newgap, aes(x = lifeExp, y = gdp, color=continent)) +
-  geom_point()
+  geom_point()+ggtitle('Life exptectency vs total gdp') +
+  theme(plot.title = element_text(hjust = 0.5))
 ```
 Then a logarithmic scale was applied to the y axis and the data for each continent was fit to a linear model but none appear to be highly correlated.
 
@@ -81,13 +85,15 @@ Now lets take a look at mean life expectancy and gdpPercap by continent.
 ```{r barchart, echo=FALSE, fig.align='center', fig.width = 7, fig.height = 4}
 plottable<-ddply(gapminder,~continent,summarise,lifeexp=mean(lifeExp)) 
 ggplot(data = plottable, aes(continent, lifeexp, fill=continent)) +
-   geom_bar(stat="identity")
+   geom_bar(stat="identity")+ggtitle('Mean life expectancy per continent') +
+  theme(plot.title = element_text(hjust = 0.5))
 ```
 
 ``` {r plot55, echo=FALSE, fig.align='center'}
 gapminder %>% group_by(continent) %>% summarize(gdp=mean(gdpPercap)) %>%
   ggplot(aes(continent, gdp, fill=continent)) +
-   geom_bar(stat="identity")
+   geom_bar(stat="identity")+ggtitle('Mean gdp per capita by continent') +
+  theme(plot.title = element_text(hjust = 0.5))
 ```
 Further, these can be separated by year as well. 
 
@@ -208,11 +214,13 @@ Lastly, population was plotted against life expectancy and gdp per capita was pl
 
 ```{r plotting_pop_lifeExp, echo=FALSE, fig.height=4, fig.align='center'}
 ggplot(data = gapminder, aes(x = lifeExp, y = pop, color=continent)) +
-  geom_point()+geom_smooth(method=lm)
+  geom_point()+geom_smooth(method=lm)+ggtitle('Life exptectency vs population') +
+  theme(plot.title = element_text(hjust = 0.5))
 ```
 
 
 ```{r plotting_pop_gdp, echo=FALSE, fig.height=4, fig.align='center'}
 ggplot(data = gapminder, aes(x = pop, y = gdpPercap, color=continent)) +
-  geom_point()
+  geom_point()+ggtitle('Population vs gdp per capita') +
+  theme(plot.title = element_text(hjust = 0.5))
 ```
